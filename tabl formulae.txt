@@ -1,0 +1,96 @@
+1.No Of Orders (count)
+
+COUNTD([Order ID])
+
+
+Dynamic : It should be flexible and work for all
+
+
+2. For dynamic measure (means if we selected proft then chart will show for profit)
+	1st create parameter  FOR SALES , PROFIT , SHIPPING COST 
+	
+	then create calculated filed (show dynamic measure)
+		IF [Dynamic Measures]="Sales" THEN [Sales]
+		ELSEIF [Dynamic Measures]="Profit" THEN [Profit]
+		ELSEIF [Dynamic Measures]="Shipping Cost" THEN [Shipping Cost]
+		ELSE [Quantity]
+		END
+
+dynamic dimension is for label for column and dynamic measure is for to use value in table 
+
+we make dynamic dimention for category,subcategory.segment,ship mode,	
+
+
+3.Dynamic dimention (FOR CATEGORY AND SUBCATEGORY SEGMENT SUCH THINGS
+	create dynamic parameter
+		crate calculated field :
+			IF [Dynamic Dimensions]="Category" THEN [Category]
+			ELSEIF [Dynamic Dimensions]="Segment" THEN [Segment]
+			ELSEIF [Dynamic Dimensions]="Region" THEN [Region]
+			ELSEIF [Dynamic Dimensions]="Sub-Category" THEN [Sub-Category]
+			ELSEIF [Dynamic Dimensions]="Order Priority" THEN [Order Priority]
+			ELSE [Ship Mode]
+			END 
+
+4.Count:
+	
+	Dynamic Count Paramter:
+			use NO of orders , No of customer, No of Products
+	
+	Create field (show dynamic count)
+		
+			
+			IF [Dynamic Count]="Number of Orders" THEN [Number of Orders]
+			ELSEIF [Dynamic Count]="No of Customers" THEN [No of Customers]
+			ELSE [No of Products]
+			END
+
+
+5.No of days to ship:
+	
+	DATEDIFF('day',[Order Date],[Ship Date])
+
+
+
+6.Ship Status:( to use in filter)
+
+	if ATTR([No of Days to ship])>=5 
+	THEN "Delayed"
+	ELSEIF ATTR([No of Days to ship])>=2 AND ATTR([No of Days to ship])<=4
+	THEN "Slight Delay"
+	ELSE  "No Delay"
+	END
+
+
+7.No of Critical Orders
+
+	COUNTD(IF [Order Priority]="Critical" then [Order ID] END)
+
+
+
+8.No of Losses:
+	COUNT(IF  [Profit_Status]= "Loss" THEN 1 END)
+
+
+
+9.No of Delays:
+	COUNTD(IF [No of Days to ship]>=5 THEN [Order ID] END)
+
+
+10.No of Customers
+	COUNTD([Customer ID])
+
+
+11.No of Products:
+	COUNTD([Product ID])
+
+12,Shipping Cost Between:
+
+	SUM([Shipping Cost])>=75000 AND SUM([Shipping Cost])<=125000
+
+
+13.Dynamic Count
+	IF [Dynamic Count]="Number of Orders" THEN [Number of Orders]
+	ELSEIF [Dynamic Count]="No of Customers" THEN [No of Customers]
+	ELSE [No of Products]
+	END
